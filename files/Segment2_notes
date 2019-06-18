@@ -1,0 +1,50 @@
+Lession 11
+	(Types of Fund: ETF, MF, Hedge fund)
+	Incentives for fund managers
+	Two & Twenty
+	Hedge funds goals and metrics
+
+Lession 12
+	Market Mechanics
+	(Order, Order-book, how orders affect order-book, 
+	how orders get to the exchange, How hedge funds exploit market,
+	Mechanics of short selling
+
+Lession 13
+	Company worth
+	Intrinsic Value - based on Future Dividend
+	Book value - Value of what co.owns (inventory,...)i
+		   - Total assets minus intangible assets and liabilities
+	Market Cap - total outstanding shares * CMP
+
+Lession 14, 15
+	CAPM (Capital Asset Pricing Model)	
+
+Lession 16
+	Technical Analysis(Momentum, Simple Moving Avg, Bollinger Bands)
+
+Lession 17
+	(Stock Split, Divident => Adj Close)
+
+Lession 18
+	EMH (Efficient Markets Hypothesis)
+
+Lession 19
+	Fundamental Law of Active Portfolio Management
+	(Grindol's fundametal law) 
+	performance = skill * sqrt(breadth)
+	----------------------------------
+	IR 	    = IC    * sqrt(breadth)
+	----------------------------------
+	[ IR, Information Ratio = 
+			mean(alpha_p(t) / stdev(alpha_p(t) ]
+	[ IC, Information Co-efficient = 
+			correlation of the manager's forecast to actual returns
+			for eg, If s/he predicts IBM would go up 1%, and it went up 0.5% it's a positive correlation
+			This value can range from 0 (where correlation is not present) to 1 (where its very very strong)]
+	[Breadth = no of trading opportunites per year]
+	Simon Vs Buffet*
+
+Lession 20
+	Portfolio Optimization and efficient frontier
+	
