@@ -1,0 +1,140 @@
+Q Learning is named after Q function.
+
+*What is Q?
+-----------
+Q can be written as a function. Q[s, a] or can be thought of as a Table
+it has got 2 dimensions: S -> state we're looking at; a -> action we might take
+
+Q represents the value of taking action a in state s, and two components to that.
+Two components = immediate reward + discounted reward (reward you get for the future actions)
+
+*How to use Q?
+--------------
+What we do in any particular state is policy (pi)
+pi(s) = what is the action we take in state s, or what is the policy for state s
+And we take advantage of Q table to find out
+
+pi(s) = argmax_a(Q[s, a])
+
+(We're in state s and we want to find out which action is best)
+All we need to do is look across all potential actions and find out which value Q[s,a] is maximized.
+
+After we run Q learning long enough, we will eventually converge to the optimal policy. (pi*(s)), Optimal Q table Q*[s,a]
+
+*Learning Procedure
+-------------------
+> Select training data
+> Iterate over time <s, a, s^, r)
+> test policy pi*(s)
+> repeat until converge
+
+[
+Training -> for particular stock, we evaluate the situation that gives us state s.
+Policy pi(s) -> gives us action a
+Take that action plug it into our system, evaluate next step, and we get s^, reward r
+After 1 iteration we got <s, a, s^, r> (or experience tuple)
+
+We use exp tuple to update our Q table
+
+Once we get all the way through the training data, we test our policy and we see how well it performs in back test
+If it's converged or it's not getting any better then we say we're done.
+If not we repeat the whole process all the way through training data
+]
+
+Iterate over time:
+Details
+> set start time, initialize Q table with small random numbers Q[]
+> compute s
+> select a
+> observe r, s^
+> update Q table
+
+*Update Rule
+------------
+
+Q^[s, a] = (1-alpha) Q[s, a] + alpha*(improved estimate)
+                                      _________________
+(Q[s, a] - old value)
+(alpha i.e. learning rate lies between 0 to 1.0)
+(larger value of alpha cause us to learn quickly; lower value of alpha causes learning to be slow
+
+Q^[s, a] = (1-alpha) * Q[s, a] + alpha * (r + gamma * later_rewards)
+						      _____________
+(gamma: discount rate, gamma lies between 0.0 to 1.0)
+low value gamma; value of later rewards is less (high discount rate)
+high value gamma; value of later reward is quite high
+
+Q^[s,a] = (1-alpha) * Q[s,a] + alpha * (r + gamma * Q[s^, argmax_a^(Q[s^,a^])]) 
+						   _________________________
+						    future disc reward
+
+what is the value of future rewards if we reach state S^ and we act appropriately ?
+If we're in state s^, the action that we would take would maximize our future reqard is argmax a^ (a^ next action we're going to take) w.r.t. to Q[s^, a^]
+
+Q'[s, a] = (1 - α) · Q[s, a] + α · (r + γ · Q[s', argmaxa'(Q[s', a'])])
+
+*Two finer points
+-----------------
+> Success depends upon exploration
+> choose random actions with probability C
+
+Quiz) Which results in faster convergence
+r = daily return
+A reward at each step allows the learning agent get feedback on each individual action it takes (including doing nothing).
+
+Quiz) Trading problem: States
+> adjusted close / SMA
+> Bollinger Band value
+> P/E ratio
+> Holding stock
+> return since entry
+
+*Creating State
+---------------
+> state is in integer
+> discretize each factor
+> combine
+
+*Discretization
+---------------
+- convert a real number into an integer across a limited scale
+
+stepSize = size(data)/steps
+data.sort()
+for i in range(0, steps)
+	threshold[i] = data[(i+1)*stepSize]
+
+for instance, data size = 100, steps = 10
+stepSize = 10
+we find 10th data element, that's out 1st threshold, and then 20th and 30th and so on...
+
+*Q Learning Recap
+-----------------
+Building a Model
+> define states, action, rewards
+> choose in-sample trainig period
+> iterate: Q table Update
+> backtest
+
+Testing a Model
+> backtest on later data
+
+*Summary
+--------
+Advantages
+
+    The main advantage of a model-free approach like Q-Learning over model-based techniques is that it can easily be applied to domains where all states and/or transitions are not fully defined.
+    As a result, we do not need additional data structures to store transitions T(s, a, s') or rewards R(s, a).
+    Also, the Q-value for any state-action pair takes into account future rewards. Thus, it encodes both the best possible value of a state (maxa Q(s, a)) as well as the best policy in terms of the action that should be taken (argmaxa Q(s, a)).
+
+Issues
+
+    The biggest challenge is that the reward (e.g. for buying a stock) often comes in the future - representing that properly requires look-ahead and careful weighting.
+    Another problem is that taking random actions (such as trades) just to learn a good strategy is not really feasible (you'll end up losing a lot of money!).
+    In the next lesson, we will discuss an algorithm that tries to address this second problem by simulating the effect of actions based on historical data.
+
+*Resources
+----------
+CS7641 Machine Learning, taught by Charles Isbell and Michael Littman
+RL course by David Silver (videos, slides)
+A Painless Q-Learning Tutorial (http://mnemstudio.org/path-finding-q-learning-tutorial.htm)

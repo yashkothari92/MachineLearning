@@ -1,0 +1,64 @@
+*Ensemble learners
+------------------
+What we have been doing so far is that we got one kind of learning model KNN, we plug our data into that  ...and we train our model
+we can query our model with X, and it will give us Y
+
+Idea with ensemble learners is that we have several additional learners 
+(We might have additional LinReg, Decision Trees, SVM)
+
+We query each and every different model with X, and we get Y from each of these models (KNN, LinReg, Decision Trees, SVM)
+In case of Classication, we choose Y (by vote from every model)
+In case of Regression, we choose Y (by finding mean)
+You can test result of ensemble with X_test
+
+> Why ensembles?
+	- lower errors
+	- less overfitting
+	- tastes great
+
+> Why so?
+	Because each and every model has a sort of bias
+	LinReg has bias that our data is linear
+	same way, KNN has its own kind of bias, Decision tree has its own kind of bias, ...
+	Therefore when we put them together you tend to reduce biases because they're fighting against each other in some sort of way
+	
+Quiz) Approach to build an ensemble
+	If we combine several models of different types (here parameterized polynomials and non-parameterized kNN models), we can avoid being biased by one approach.
+	This typically results in less overfitting, and thus better predictions in the long run, especially on unseen data.
+	
+*Bagging
+---------
+There's another way we can build ensemble learners.
+We can build them using same learning algorithm, but train each learner on a different set of data
+This is what called 'bootstrap aggregating' or 'bagging'
+
+Quiz) Most likely to overfit?
+Yes, as we saw earlier, a 1NN model (kNN with k = 1) matches the training data exactly, thus overfitting.
+An ensemble of such learners trained on slightly different datasets will at least be able to provide some generalization, and typically less out-of-sample error.
+
+*Boosting
+---------
+Fairly simple variation of Bagging that thrives to improve learners where focusing on areas where system is not performing well.
+
+
+Quiz) Which is more likely to overfit as 'm' increases
+A) Simple Bagging
+b) Ada Boosting
+Simple bagging results in more generalized predictions as m increases (since the individual predictions of m learners are averaged/voted with).
+
+As m increases, AdaBoost tries to assign more and more specific data points to subsequent learners, trying to model all the difficult examples.
+Thus, compared to simple bagging, it may result in more overfitting.
+
+
+*Bagging and Boosting
+> methods of taking existing learners and essentially wrapping them in meta-algorithm that converts your existing learner into an ensemble
+(wrappers for existing methods)
+And you should use the same API to call your ensemble that you would have earlier been using to call an individual learner
+
+So externally whatever the part of your program calling the learner, it doesn't know that underneath there you're doing boosting or bagging
+
+> reduces error
+> reduces overfitting
+
+To summarize, boosting and bagging are not new algorithm themselves. 
+They are meta algorithms that lets you wrap your underlying learning algorithms into something that's better.

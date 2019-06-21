@@ -1,0 +1,21 @@
+Quiz) Which is more likely to overfit as 'm' increases
+A) Simple Bagging
+b) Ada Boosting
+Simple bagging results in more generalized predictions as m increases (since the individual predictions of m learners are averaged/voted with).
+
+As m increases, AdaBoost tries to assign more and more specific data points to subsequent learners, trying to model all the difficult examples.
+Thus, compared to simple bagging, it may result in more overfitting.
+
+
+*Bagging and Boosting
+> methods of taking existing learners and essentially wrapping them in meta-algorithm that converts your existing learner into an ensemble
+(wrappers for existing methods)
+And you should use the same API to call your ensemble that you would have earlier been using to call an individual learner
+
+So externally whatever the part of your program calling the learner, it doesn't know that underneath there you're doing boosting or bagging
+
+> reduces error
+> reduces overfitting
+
+To summarize, boosting and bagging are not new algorithm themselves. 
+They are meta algorithms that lets you wrap your underlying learning algorithms into something that's better.

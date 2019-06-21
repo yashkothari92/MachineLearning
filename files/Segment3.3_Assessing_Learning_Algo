@@ -1,0 +1,85 @@
+Assessing a learning algorithm
+
+*KNN
+----
+What happens as K varies
+K (#nearest neighbours, finding mean of K neighbours)
+If;
+K = 1, straight line across plot varies up, down, up, down plot
+K = 3, touching several data points, and jump up & down
+K = N, touching almost every single data point
+
+As we increase K we are more likely overfit?
+False
+
+*Parametric Regression
+----------------------
+for eq, y = m1*x + m2*x^2 + m3*x^3 + b
+degree (d)
+
+If d;
+d = 1, y = mx + b => straight line (splitting two sides top & bottom)
+d = 2, y = ax^2 + b*x + c => parabola (touches more data points than line)
+d = 3, y = ax + bx^2 + cx^3 => polynomial with degree 3, additional curve on top of parabola curve (touches/tags more and more data points)
+
+As we increase d, we are more likely to overfit?
+True
+
+Ways to evaluate the accuracy of regression algo:
+*Metric 1 RMS Error
+-------------------
+RMSE = Sqrt((Sum(Y_test - Y_predict)^2)/N)
+
+In Sample V/s Out of sample
+- In sample error, we have arbitrarily small error in our (training) set as we're trying to tag as many data points as possible
+- In "out of sample", we ususally have larger error in (testing) set than "in sample" error since the model has not seen points from the test set
+
+*Metric 2: correlation
+----------------------
+Relationship between predicted and actual values of our dependent variable Y [plot x: y_predict => y: y_test]
+For eg, query our model that we trained on training data with X_test, our testing data set. 
+Output of that query is a new vector of Y values, Y_predict
+So based on X_test data, our model predicts Y_predict data.
+We can now compare what we know to be the correct, or true data and Y_test with what our prediction was.
+
+We can measure this properly quantitatively using something called 'Correlation'
+You can use numpy function np.corrcoef() to measure the correlation between Y_test & Y_predict.
+You'll get an answer somewhere between -1 & +1.
++1 (strongly correlated)
+-1 (inversely correlated)
+o (no correlation at all between them)
+
+Note that correlation isn't the slope of the line.
+Correlation has to do with how well aligned the points are with the line that we fit
+(If its fit within "oval" that fits close to the line => high correlation,
+ If its fit within "big round", we've got poor correlation)
+
+Quiz) As RMS error increses, 
+	correlation decreses
+
+*Overfitting
+------------
+In-sample data(training)
+degree of a polynomial(d) Vs Error
+as d increses, error decreses
+
+out-of-sample data(testing)
+degree of a polynomial(d) Vs Error [plot x->y]
+as d increases, error decreses upto some extent, and we eventually we reach at a point where it begins to increase (strongly).
+
+At some point along X axis, we have got in-sample error decresing,
+				out-of-sample error increasing
+that is called overfitting
+
+Quiz) KNN overfitting
+
+Good job! This was a tough one!
+When k = 1, the model fits the training data perfectly, therefore in-sample error is low (ideally, zero).  Out-of-sample error can be quite high.
+As k increases, the model becomes more generalized, thus out-of-sample error decreases at the cost of slightly increasing in-sample error.
+After a certain point, the model becomes too general and starts performing worse on both training and test data.
+
+Quiz) A few other considerations (which one is better? KNN vs LinearReg)
+> space for saving model -  LinReg: less (as need to store only few params, for 3degree=> 4); KNN: high (as need to store every single data point)
+> compute time to train - KNN (takes 0 time to train, just stuff the model into data-store; on other hand LinReg has to take all data, compute over it, to find those params)
+> compute time to query - LinReg(just need to plug x, and multiply and add; as opposed to compute neighbour and find mean,and sort in KNN)
+> ease to add new data - KNN(just need to put it w/o recomputing model; as opposed to LinReg where you need to add data & recompute the factors)

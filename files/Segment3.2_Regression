@@ -1,0 +1,61 @@
+-----------
+Regression
+-----------
+> Parametric Regression	
+	Linear Regression (y = m*x + b)  {2 params}
+	polynomial Regression (y = m^2x + mx + b) {3 params}
+	
+	more complex models, more params
+	
+> K nearest neighbours (instance based , data-centric approach)
+	a non-parametric method used for classification and regression
+	 if our input is any value on X axis, for e.g. x = -5mm (x = change in barometic pressure)
+	 and we assume as k = 3,
+	 we find 3 nearest neighbours (i.e. historical data-points) 
+	 fetch the mean of those neighbours data, and that will be the output (y => prediction of rainfall) of our test 
+	 
+> Kernel Regression
+	similar to KNN.
+	it differs in a fact that it in Kernel Regression we weight the contributions of each of the nearest data points according to how distant they are.
+	whereas with KNN, each data point that we consider gets essentially an equal weight.
+	
+> Training & Testing
+	In order to evaluate our learning algo in a scientic manner, we need to split this data into atlease two sections
+	1) train data
+	2) test data
+	separating train data & test data AKA "out of sample testing"
+	
+	X_train, Y_train will be feeded to Data, 
+	that will run through ML algo (for e.g. Linear Regression, KNN)
+	and generates a model
+	
+	And then test the accuracy of model
+	X_test will be tested against the model and output is Y1
+	now question is Y1 got above, is the same as Y_test to find out the accuracy.
+	
+> Learning API
+	For Linear Regression,	
+	learner = LinRegLearner() //get an instance by calling constructor
+	learner.train(X_train, Y_train)
+	Y = learner.query(x_test)
+	
+	For KNN,
+	learner = KNNLearner(k=3) //k = 3 neighbours
+	learner.train(X_train, Y_train)
+	Y = learner.query(x_test)
+	
+> Pesudocode:
+	
+	class LinRegLearner::
+		def __init__():
+			pass;		//do nothing, as in case of Learning Regression constructor does nothing
+			
+		//X can be multi-dimensional (list)
+		def train(X, y):
+			self.m, self.b = favorite_linreg(X, y)
+			
+		def query(X):
+			Y = self.m*X + self.b
+			return Y
+			
+	//favorite_linreg can be any algo at your disposal as part of SciPy or NumPy, and just stuff its output to m & b
