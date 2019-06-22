@@ -1,0 +1,87 @@
+*Overview
+----------
+One problem with Q Learning is that it takes many experienced tuples to converge.
+This is expensive in terms of interacting with the world, because you have to take real step (i.e. execute a trade in order to gather information)
+
+To address this problem, Rich Sutton invented Dyna.
+Dyna works by building models of T, the transition matriz & R, reward matrix.
+Then after each real interaction with world, we hallucinate many additional interactions, ususally a few hundred. That are used then to update Q table.
+
+Dyna Q algo is developed to speed up learning or model convergence for Q Learning.
+Remember that Q learning is model-free approach. That means it doesn't depend on T(transition matrix) or R(reward matrix)		
+
+Dyna Q is blend of model free & model based methods.
+Dyna Q is an addition to Q Learning.
+
+*Dyna Q Big Picture
+-------------------
+
+Below 4 are part of Q-Learn
+
+> init Q Table
+> observe s
+> execute a, observe s^, r
+> update Q with <s, a, s^, r>
+
+Addition: (when we augment Q with learning Dyna Q, we add 3 new components)
+First: Add logic to enable us to learn models of T & R.
+	(find new values for T & R)
+	T[s, a, s^] - probability that if we are in state s, and take action a, we'll end up in state s^
+	R[s, a] - expected reward, if we are in state s and we take action a.
+Second: Then we hallucinate these experiences
+	(Randomly select s) s = random
+	(Randomly select a) a = random
+	s^ = infer from T[]
+	r = R[, a]
+	Here we get complete experience tuple [s, a, s^, r]
+Third: And then update Q table
+And repeat these many times (maby be 100s of times)
+
+[This operatio is very cheap compared to interacting with real world]
+We can leverage the experience we gained in (Q-Learn- from an interaction with the real world),but then update our model more completely before we step out and itereact with real world again
+
+After We iterate (Dyna-Q) enough times (100 or may be 200 times), then we return back to original Q Model and resume our interaction with the real world
+
+Key thing is here that for each experience with the real world, we have may be 100 or 200 updates of our model here.
+
+*Learning T
+-----------
+T[s,a,s^] prob s,a -> s^  = represents the probability that if we are in state s, and take action a, we'll end up in state s^.
+To learn model of T, need to observe how these transitions occur.
+(We'll have experience with the real world we'll get back on s, a, s^ and we'll just count how many times did it happen.)
+Introducting new Table T count (Tc)
+'''
+init Tc[]= 0.00001 (initialize all of our T count values to be a very, very small number)
+		   (because later on you'll see that if we don't do that we could get in a situation where we have to divide by 0)
+while exectuting, observe s, a, s^
+increment Tc[s,a,s^] (so everytime we see transition from s to s^ with action a, we add one)
+
+Quiz)
+How to evaluate T?
+T[s, a, s^] = Tc[s, a, s^]/Sigma_i(Tc[s, a, i])
+		(count of particular transition occurred / total occurrences where we were in state s and did action a)
+	shows probability that if you're in state s and action a, you'll end up in s^
+'''  
+
+*Learning R
+-----------
+R[s, a] - expected reward for s, a
+r - immediate reward when we experiece in real world
+
+R^[s, a] = (1-alpha)*R[s, a] + alpha*r
+(So we're waiting presumably. Our old value more than a new value, so we converge more slowly)
+
+*Summary
+--------
+Summary
+
+The Dyna architecture consists of a combination of:
+
+    direct reinforcement learning from real experience tuples gathered by acting in an environment,
+    updating an internal model of the environment, and,
+    using the model to simulate experiences.
+
+Dyna learning architecture
+
+Sutton and Barto. Reinforcement Learning: An Introduction. MIT Press, Cambridge, MA, 1998. [web]
+
