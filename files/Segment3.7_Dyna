@@ -1,6 +1,6 @@
-----------
+----------abc
 *Overview
-----------
+----------abc
 One problem with Q Learning is that it takes many experienced tuples to converge.
 This is expensive in terms of interacting with the world, because you have to take real step (i.e. execute a trade in order to gather information)
 
